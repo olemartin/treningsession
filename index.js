@@ -62,7 +62,7 @@ client.on("interactionCreate", async (interaction) => {
       .setColor("#0099ff")
       .setTitle("Treningsession opprettet 🙌")
       .setAuthor({
-        name: interaction.member.nickname,
+        name: interaction.member.nickname || interaction.member.user.username,
         iconURL: interaction.user.displayAvatarURL({ format: "jpg" }),
       })
       .addFields(
