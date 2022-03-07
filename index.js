@@ -57,7 +57,11 @@ client.on("interactionCreate", async (interaction) => {
     var password = interaction.options.getString("password");
     var duration = interaction.options.getInteger("duration");
 
-    await redis.HINCRBY(month, interaction.member.nickname, duration);
+    await redis.HINCRBY(
+      month,
+      interaction.member.nickname || interaction.member.user.username,
+      duration
+    );
     const response = new MessageEmbed()
       .setColor("#0099ff")
       .setTitle("Treningsession opprettet 🙌")
