@@ -11,7 +11,7 @@ var guildId = process.env.GUILD_ID;
 const commands = [
   new SlashCommandBuilder()
     .setName("status")
-    .setDescription("Gir status for treningsessions")
+    .setDescription("Prints status for treningsessions")
     .addStringOption((option) =>
       option
         .setName("year-month")
