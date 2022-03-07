@@ -10,7 +10,9 @@ var token = process.env.DISCORD_TOKEN;
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-const redis = createClient();
+const redis = createClient({
+  url: process.env.REDISCLOUD_URL,
+});
 
 // When the client is ready, run this code (only once)
 client.once("ready", async () => {
