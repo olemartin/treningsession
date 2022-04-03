@@ -1,6 +1,5 @@
 // Require the necessary discord.js classes
 const { MessageEmbed, Client, Intents } = require("discord.js");
-const { memberNicknameMention, bold, italic } = require("@discordjs/builders");
 const { createClient } = require("redis");
 const dayjs = require("dayjs");
 
@@ -26,18 +25,19 @@ client.on("interactionCreate", async (interaction) => {
     return;
   }
 
-  const month = dayjs().format("YYYY-MM");
-
   const { commandName } = interaction;
 
   if (commandName === "status") {
+
     const optionMonth = interaction.options.getString("year-month");
 
-    const data = await redis.hKeys(optionMonth || month);
+    const month = optionMonth || dayjs().format("YYYY-MM");
+
+    const data = await redis.hKeys(month);
 
     const response = new MessageEmbed()
       .setColor("#0099ff")
-      .setTitle(`Treningsessions for måned: ${optionMonth || month}`);
+      .setTitle(`Treningsessions for måned: ${month}`);
 
     const fields = await Promise.all(
       data.map(async (key) => {
@@ -50,9 +50,8 @@ client.on("interactionCreate", async (interaction) => {
       .map((m) => ({ name: m.name, value: `${m.value} min.` }));
 
     await interaction.reply({ embeds: [response] });
-  } else if (commandName === "status") {
-    await redis.hKeys("users");
   } else if (commandName === "register") {
+    const month = dayjs().format("YYYY-MM");
     var description = interaction.options.getString("description");
     var password = interaction.options.getString("password");
     var duration = interaction.options.getInteger("duration");
